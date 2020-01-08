@@ -1,12 +1,11 @@
-import {makeId} from "./UtilServices.js";
+import { makeId } from "./UtilServices.js";
 
 export default {
   getCat,
   delCat,
   editOrAdd
 };
-
-const dbCat = [
+const data = [
   { _id: "0ewad0", name: "Travel" },
   { _id: "1djaW1", name: "Snowboard" },
   { _id: "2fAcp2", name: "Kitesurf" },
@@ -15,31 +14,34 @@ const dbCat = [
   { _id: "5dape5", name: "Trending" },
   { _id: "6gXpf6", name: "Most Popular" }
 ];
+let db;
+const isLocalStorageOn = false;
+const localStorageKey = "categories";
 
 async function getCat() {
-  const categories = [];
-  dbCat.map(c => categories.push(c));
-  return categories;
+  if (isLocalStorageOn) {
+    const loadCat = localStorage.getItem(localStorageKey);
+    if (loadCat) db = [...loadCat];
+  } else if(!db) db = [...data];
+  return _returnDB();
 }
 
 async function delCat(id) {
-  const index = dbCat.findIndex(c => c._id === id);
-  console.log(index);
-  
+  const index = db.findIndex(c => c._id === id);
   if (index === -1) return;
-  dbCat.splice(index, 1);
+  db.splice(index, 1);
   _returnDB();
 }
 
 function _editCat(newCat) {
-  const idx = dbCat.findIndex(c => c._id === newCat._id);
-  dbCat[idx] = newCat; // add to the Virtual DB as well:
+  const idx = db.findIndex(c => c._id === newCat._id);
+  db[idx] = newCat; // add to the Virtual DB as well:
 }
 
 function _addCat(newCat) {
   const newId = makeId();
   newCat._id = newId;
-  dbCat.push(newCat);
+  db.push(newCat);
 }
 
 function editOrAdd(newCat) {
@@ -54,6 +56,10 @@ function editOrAdd(newCat) {
 
 function _returnDB() {
   // return new array with no connection to original db
-  let categories = [...dbCat];
+  let categories = db.map(c => c);
+  // SAVE TO LOCAL STORAGE :
+  if (isLocalStorageOn) {
+    localStorage.setItem(localStorageKey, categories);
+  }
   return categories;
 }
