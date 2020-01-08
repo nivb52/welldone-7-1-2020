@@ -1,6 +1,6 @@
 import React from "react";
 import Cards from "../cmps/common/Cards";
-import catService from "../services/CatsService";
+import locService from "../services/LocService";
 
 // TODO :
 // .. LOCATION properties: name, address, coordinates, and category.
@@ -10,23 +10,23 @@ import catService from "../services/CatsService";
 // manage location same as categories
 
 export default function Cats() {
-  const deleteCategory = async id => {
-    await catService.delCat(id);
+  const deleteLocation = async id => {
+    await locService.delLoc(id);
   };
-  const getCategories = async () => {
-    const cats = await catService.getCat();
+  const getLocations = async () => {
+    const cats = await locService.getLoc();
     return cats;
   };
 
-  const editOrAddCategory = async editedCat => {
-    await catService.editOrAdd(editedCat);
+  const editOrAddLocation = async editedCat => {
+    await locService.editOrAdd(editedCat);
   };
   return (
     <>
       <Cards
-        getCards={getCategories}
-        deleteCard={deleteCategory}
-        editOrAddCards={editOrAddCategory}
+        getCards={getLocations}
+        deleteCard={deleteLocation}
+        editOrAddCards={editOrAddLocation}
         title = "Locations"
       ></Cards>
     </>
