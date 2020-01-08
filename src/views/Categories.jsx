@@ -51,7 +51,7 @@ const Categories = () => {
   const handleInput = e => {
     setNameInput(e.target.value);
   };
-  
+
   const catDelete = async id => {
     isAjaxingForCats = [true];
     await catService.delCat(id);
@@ -59,11 +59,15 @@ const Categories = () => {
     unSelect();
     isAjaxingForCats = [false];
   };
-  
-  const handleEnter = (e) => {
-    if (e.keyCode === 13) return handleSave()
-  }
+
+  const handleEnter = e => {
+    if (e.keyCode === 13) return handleSave();
+  };
+
   const handleSave = async () => {
+    // required field
+    if (!nameInput.trim()) return alert('you must enter name');
+    // else continue saving...
     const editedCat = { ...editCat, name: nameInput };
     await catService.editOrAdd(editedCat);
     setEditCat(null);
@@ -82,13 +86,14 @@ const Categories = () => {
     <div className="categories">
       <Toolbar
         id={selectCat}
+        onEdit={editCat}
         edit={catEdit}
-        view={catView}
         add={catAdd}
+        view={catView}
         del={catDelete}
         back={unSelect}
       >
-        {'Categories'}
+        {"Categories"}
       </Toolbar>
       {categories[0] && !editCat && !viewCat && (
         <List
@@ -104,7 +109,12 @@ const Categories = () => {
       )}
       {editCat && (
         <div className="edit-categories">
-          <input autoFocus onKeyDown={handleEnter} placeholder={editCat.name} onChange={handleInput} />
+          <input
+            autoFocus
+            onKeyDown={handleEnter}
+            placeholder={editCat.name}
+            onChange={handleInput}
+          />
           <button className="btn" onClick={handleSave}>
             save
           </button>

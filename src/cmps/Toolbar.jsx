@@ -1,6 +1,6 @@
 import React from "react";
 
-const Toolbar = ({ children, catId, back,view, edit, del, add }) => {
+const Toolbar = ({ children, id, back, view, edit, onEdit, del, add }) => {
   const handleClick = (type, id) => {
     switch (type) {
       case "back":
@@ -16,7 +16,7 @@ const Toolbar = ({ children, catId, back,view, edit, del, add }) => {
         del(id);
         break;
       case "add":
-      add();
+        add();
         break;
       default:
         return;
@@ -24,37 +24,39 @@ const Toolbar = ({ children, catId, back,view, edit, del, add }) => {
   };
   return (
     <div className="toolbar">
-      
       <h1>{children}</h1>
 
-      {!catId && (
-        <button onClick={() => handleClick("add")} className="btn">
-          new category
-        </button>
+      {!id && (
+        <>
+          <button onClick={() => handleClick("add")} className="btn">
+            new category
+          </button>
+        </>
       )}
+          {onEdit && <button onClick={() => handleClick("back")} className="btn">
+            back
+          </button>}
 
-      {catId && (
+      {id && (
         <div className="toolbar-btn">
-          <button
-            onClick={() => handleClick("back")}
-            className="btn"
-          >
+          <button onClick={() => handleClick("back")} className="btn">
             back
           </button>
+          
           <button
-            onClick={() => handleClick("view", catId)}
+            onClick={() => handleClick("view", id)}
             className="btn btn-info"
           >
             view
           </button>
           <button
-            onClick={() => handleClick("edit", catId)}
+            onClick={() => handleClick("edit", id)}
             className="btn btn-success"
           >
             edit
           </button>
           <button
-            onClick={() => handleClick("del", catId)}
+            onClick={() => handleClick("del", id)}
             className="btn btn-danger"
           >
             delete
