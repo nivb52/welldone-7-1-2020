@@ -1,10 +1,11 @@
-import React from 'react';
+import React from "react";
+import "../style/index.css"
 
-export default function ToogleBar({handleClick}) {
-  
-    return (
-    <div onClick={handleClick} className="tooglebar" style={{backgroundColor: "black", color:"white"}}>
-        Bottom bar 
+export default function ToogleBar({ handleClick, children }) {
+  return (
+    <div className="toggle-bar">
+      <button className="btn" onClick={() => handleClick(true)}> {children[0]} </button>
+      <button className="btn"onClick={() => handleClick(false)} > {children[1]} </button>
     </div>
   );
 }
