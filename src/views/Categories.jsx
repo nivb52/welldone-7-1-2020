@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Toolbar from "../cmps/Toolbar";
 import catService from "../services/CatsService";
+import List from "../cmps/common/List";
 
 const Categories = () => {
   let isAjaxingForCats = false;
@@ -85,19 +86,8 @@ const Categories = () => {
       {categories[0] &&
         !editCat &&
         !viewCat &&
-        categories.map(cat => (
-          <div
-            className={ "category " + isHighlited(cat) }
-            key={cat._id}
-            onClick={() => handleCatChoose(cat._id)}  
-          >
-            <div className="category-name">
-              <span>
-                {cat.name}
-              </span>
-            </div>
-          </div>
-        ))}
+        <List list={categories} handleClick={handleCatChoose} classCondition={isHighlited}/>
+        }
 
       {viewCat && (
         <div className="view-categories">
