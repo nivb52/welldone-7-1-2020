@@ -1,6 +1,6 @@
 import React from "react";
 
-const Toolbar = ({ catId, back,view, edit, del, add }) => {
+const Toolbar = ({ children, catId, back,view, edit, del, add }) => {
   const handleClick = (type, id) => {
     switch (type) {
       case "back":
@@ -24,7 +24,8 @@ const Toolbar = ({ catId, back,view, edit, del, add }) => {
   };
   return (
     <div className="toolbar">
-      <h1>Categories</h1>
+      
+      <h1>{children}</h1>
 
       {!catId && (
         <button onClick={() => handleClick("add")} className="btn">
