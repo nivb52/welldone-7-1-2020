@@ -33,16 +33,19 @@ const Toolbar = ({ children, id, back, view, edit, onEdit, del, add }) => {
           </button>
         </>
       )}
-          {onEdit && <button onClick={() => handleClick("back")} className="btn">
-            back
-          </button>}
+      
+      {onEdit && !id && (
+        <button onClick={() => handleClick("back")} className="btn">
+          back
+        </button>
+      )}
 
       {id && (
         <div className="toolbar-btn">
           <button onClick={() => handleClick("back")} className="btn">
             back
           </button>
-          
+
           <button
             onClick={() => handleClick("view", id)}
             className="btn btn-info"
