@@ -24,6 +24,7 @@ const Categories = () => {
   }, []);
 
   const handleCatChoose = id => {
+    if (id === selectCat) return setSelectCat()
     setSelectCat(id);
   };
 
