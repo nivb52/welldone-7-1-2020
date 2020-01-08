@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import Categories from "./views/Categories";
-import "./style/App.css";
+import ToogleBar from "./cmps/ToogleBar";
+import "./style/layout.css";
 
 function App() {
-
+  const [toggleCategories, setToggleCategories] = useState(true);
+  const handleClick = () => {
+    const toggle = !toggleCategories;
+    setToggleCategories(toggle);
+  };
 
   return (
     <div className="App">
-      <Categories />
+      <header></header>
+      
+      <main>
+        {toggleCategories && <Categories />}
+        {/* {!toggleCategories && <Categories />} */}
+      </main>
+      
+      <footer>
+        <ToogleBar handleClick={handleClick} />
+      </footer>
     </div>
   );
 }
