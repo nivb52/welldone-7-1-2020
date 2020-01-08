@@ -1,32 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Toolbar from "../Toolbar";
 import List from "./List";
 import Input from "./Input";
+import "./cards.css";
 
 const Cards = ({
-  getCards,
+  cards,
   deleteCard,
   editOrAddCards,
   title = "Global Cards"
 }) => {
-  let isAjaxingForCards = false;
-
-  const [cards, setCards] = useState([]);
   const [selectCard, setSelectCard] = useState();
   const [editCard, setEditCard] = useState();
   const [viewCard, setViewCard] = useState();
   const [nameInput, setNameInput] = useState(editCard);
-
-  const loadCards = async () => {
-    isAjaxingForCards = true;
-    const cards = await getCards();
-    setCards(cards);
-    isAjaxingForCards = false;
-  };
-
-  useEffect(() => {
-    loadCards();
-  }, []);
 
   const handleCardChoose = id => {
     if (id === selectCard) return setSelectCard();
@@ -38,8 +25,8 @@ const Cards = ({
   };
 
   const cardEdit = id => {
-    const foundCat = _findCard(id);
-    setEditCard(foundCat);
+    const foundCard = _findCard(id);
+    setEditCard(foundCard);
     // will be set as edited on save
   };
 
@@ -48,17 +35,23 @@ const Cards = ({
     // will be added on save
   };
 
-  const cardView = id => {
-    const foundCat = _findCard(id);
-    setViewCard(foundCat);
+  const cardDelete = id => {
+    deleteCard(id);
+    unSelect();
   };
 
-  const catDelete = async id => {
-    isAjaxingForCards = true;
-    await deleteCard(id);
-    loadCards();
+  const handleSave = () => {
+    // required field
+    if (!nameInput && !nameInput.trim()) return alert("you must enter name");
+    // else continue saving...
+    const editedCard = { ...editCard, name: nameInput };
+    editOrAddCards(editedCard);
     unSelect();
-    isAjaxingForCards = false;
+  };
+
+  const cardView = id => {
+    const foundCard = _findCard(id);
+    setViewCard(foundCard);
   };
 
   const handleInput = value => {
@@ -69,18 +62,10 @@ const Cards = ({
     handleSave();
   };
 
-  const handleSave = async () => {
-        // required field
-    if (!nameInput && !nameInput.trim()) return alert("you must enter name");
-    // else continue saving...
-    const editedCat = { ...editCard, name: nameInput };
-    await editOrAddCards(editedCat);
-    setEditCard(null);
-    loadCards();
-  };
   const isHighlited = c => {
     return selectCard ? (c._id === selectCard ? "highlight" : "") : "";
   };
+
   const unSelect = () => {
     setSelectCard();
     setEditCard();
@@ -95,7 +80,7 @@ const Cards = ({
         edit={cardEdit}
         add={cardAdd}
         view={cardView}
-        del={catDelete}
+        del={cardDelete}
         back={unSelect}
       >
         {title}

@@ -1,23 +1,35 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Cards from "../cmps/common/Cards";
 import catService from "../services/CatsService";
 
-export default function Cats() {
-  const deleteCategory = async id => {
-    await catService.delCat(id);
-  };
+export default function Categories() {
+  
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  //   let isAjaxingForCards = false;
+  const [cats, setCats] = useState([]);
+  
   const getCategories = async () => {
-    const cats = await catService.getCat();
+    setCats(await catService.getCat());
     return cats;
   };
 
+  const deleteCategory = async id => {
+    await catService.delCat(id);
+    getCategories()
+  };
+  
+
   const editOrAddCategory = async editedCat => {
     await catService.editOrAdd(editedCat);
+    getCategories()
   };
   return (
     <>
       <Cards
-        getCards={getCategories}
+        cards={cats}
         deleteCard={deleteCategory}
         editOrAddCards={editOrAddCategory}
         title = "Categories"
