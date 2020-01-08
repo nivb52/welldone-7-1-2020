@@ -14,10 +14,11 @@ header {
 
 footer {
   grid-area: footer;
+  height: 10vh;
 }
 
 main {
   grid-area: main;
-  height: 95vh;
+  height: 90vh;
   margin: 0 5%;
 }
