@@ -24,7 +24,7 @@ const Categories = () => {
   }, []);
 
   const handleCatChoose = id => {
-    if (id === selectCat) return setSelectCat()
+    if (id === selectCat) return setSelectCat();
     setSelectCat(id);
   };
 
@@ -35,11 +35,12 @@ const Categories = () => {
   const catEdit = id => {
     const foundCat = _findCat(id);
     setEditCat(foundCat);
+    // will be set as edited on save
   };
 
-  const catAdd = newCat => {
+  const catAdd = () => {
     setEditCat({});
-    console.log("catAdd");
+    // will be added on save
   };
 
   const catView = id => {
@@ -50,7 +51,7 @@ const Categories = () => {
   const handleInput = e => {
     setNameInput(e.target.value);
   };
-
+  
   const catDelete = async id => {
     isAjaxingForCats = [true];
     await catService.delCat(id);
@@ -58,16 +59,19 @@ const Categories = () => {
     unSelect();
     isAjaxingForCats = [false];
   };
-
+  
+  const handleEnter = (e) => {
+    if (e.keyCode === 13) return handleSave()
+  }
   const handleSave = async () => {
     const editedCat = { ...editCat, name: nameInput };
     await catService.editOrAdd(editedCat);
     setEditCat(null);
     loadCats();
   };
-  const isHighlited = (c) => {
-    return selectCat ? (c._id === selectCat ? "highlight" : "") : ""
-  }
+  const isHighlited = c => {
+    return selectCat ? (c._id === selectCat ? "highlight" : "") : "";
+  };
   const unSelect = () => {
     setSelectCat();
     setEditCat();
@@ -77,29 +81,33 @@ const Categories = () => {
   return (
     <div className="categories">
       <Toolbar
-        catId={selectCat}
+        id={selectCat}
         edit={catEdit}
         view={catView}
         add={catAdd}
         del={catDelete}
         back={unSelect}
-      />
-      {categories[0] &&
-        !editCat &&
-        !viewCat &&
-        <List list={categories} handleClick={handleCatChoose} classCondition={isHighlited}/>
-        }
-
+      >
+        {'Categories'}
+      </Toolbar>
+      {categories[0] && !editCat && !viewCat && (
+        <List
+          list={categories}
+          handleClick={handleCatChoose}
+          classCondition={isHighlited}
+        />
+      )}
       {viewCat && (
         <div className="view-categories">
           <span>{viewCat.name}</span>
         </div>
       )}
-
       {editCat && (
         <div className="edit-categories">
-          <input placeholder={editCat.name} onChange={handleInput} />
-          <button  className="btn" onClick={handleSave}>save</button>
+          <input autoFocus onKeyDown={handleEnter} placeholder={editCat.name} onChange={handleInput} />
+          <button className="btn" onClick={handleSave}>
+            save
+          </button>
         </div>
       )}
     </div>
