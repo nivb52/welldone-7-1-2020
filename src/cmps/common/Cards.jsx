@@ -1,9 +1,14 @@
-import React, { useState, useEffect, Children } from "react";
+import React, { useState, useEffect } from "react";
 import Toolbar from "../Toolbar";
 import List from "./List";
+import Input from "./Input";
 
-
-const Cards = ({getCards, deleteCard, editOrAddCards, title = "Global Cards"}) => {
+const Cards = ({
+  getCards,
+  deleteCard,
+  editOrAddCards,
+  title = "Global Cards"
+}) => {
   let isAjaxingForCards = false;
 
   const [cards, setCards] = useState([]);
@@ -23,33 +28,29 @@ const Cards = ({getCards, deleteCard, editOrAddCards, title = "Global Cards"}) =
     loadCards();
   }, []);
 
-  const handleCatChoose = id => {
+  const handleCardChoose = id => {
     if (id === selectCard) return setSelectCard();
     setSelectCard(id);
   };
 
-  const _findCat = id => {
+  const _findCard = id => {
     return cards.find(c => c._id === id);
   };
 
-  const catEdit = id => {
-    const foundCat = _findCat(id);
+  const cardEdit = id => {
+    const foundCat = _findCard(id);
     setEditCard(foundCat);
     // will be set as edited on save
   };
 
-  const catAdd = () => {
+  const cardAdd = () => {
     setEditCard({});
     // will be added on save
   };
 
-  const catView = id => {
-    const foundCat = _findCat(id);
+  const cardView = id => {
+    const foundCat = _findCard(id);
     setViewCard(foundCat);
-  };
-
-  const handleInput = e => {
-    setNameInput(e.target.value);
   };
 
   const catDelete = async id => {
@@ -60,13 +61,17 @@ const Cards = ({getCards, deleteCard, editOrAddCards, title = "Global Cards"}) =
     isAjaxingForCards = false;
   };
 
-  const handleEnter = e => {
-    if (e.keyCode === 13) return handleSave();
+  const handleInput = value => {
+    setNameInput(value);
+  };
+
+  const onEnter = () => {
+    handleSave();
   };
 
   const handleSave = async () => {
-    // required field
-    if (!nameInput.trim()) return alert("you must enter name");
+        // required field
+    if (!nameInput && !nameInput.trim()) return alert("you must enter name");
     // else continue saving...
     const editedCat = { ...editCard, name: nameInput };
     await editOrAddCards(editedCat);
@@ -83,13 +88,13 @@ const Cards = ({getCards, deleteCard, editOrAddCards, title = "Global Cards"}) =
   };
 
   return (
-    <div className="categories">
+    <div className="cards">
       <Toolbar
         id={selectCard}
         onEdit={editCard}
-        edit={catEdit}
-        add={catAdd}
-        view={catView}
+        edit={cardEdit}
+        add={cardAdd}
+        view={cardView}
         del={catDelete}
         back={unSelect}
       >
@@ -99,22 +104,21 @@ const Cards = ({getCards, deleteCard, editOrAddCards, title = "Global Cards"}) =
       {cards[0] && !editCard && !viewCard && (
         <List
           list={cards}
-          handleClick={handleCatChoose}
+          handleClick={handleCardChoose}
           classCondition={isHighlited}
         />
       )}
       {viewCard && (
-        <div className="view-categories">
+        <div className="view-card">
           <span>{viewCard.name}</span>
         </div>
       )}
       {editCard && (
-        <div className="edit-categories">
-          <input
-            autoFocus
-            onKeyDown={handleEnter}
+        <div className="edit-card">
+          <Input
+            onEnter={onEnter}
             placeholder={editCard.name}
-            onChange={handleInput}
+            handleInput={handleInput}
           />
           <button className="btn" onClick={handleSave}>
             save

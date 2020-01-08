@@ -17,11 +17,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.categories {
+.cards {
   margin: 0 auto;
 }
 
-.category {
+.card {
   display: flex;
   flex-direction: column;
   flex-grow: 3;
@@ -31,7 +31,7 @@ body {
   width: 30%;
   border-style: groove;
 }
-.category-name {
+.card-name {
   justify-content: center;
   align-items: center;
 }
@@ -40,8 +40,8 @@ body {
   background-color: yellow;
 }
 
-.categories .edit-categories,
-.categories .view-categories {
+.card .edit-card,
+.card .view-card {
   margin-top: 2.5rem;
 }
 
