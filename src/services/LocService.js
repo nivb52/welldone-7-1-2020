@@ -3,9 +3,11 @@ import { makeId } from "./UtilServices.js";
 export default {
   getLoc,
   delLoc,
-  editOrAdd
+  editOrAdd,
+  sortBy,
+  filterBy
 };
-let db
+let db;
 const data = [
   {
     _id: "0ewad0",
@@ -60,12 +62,11 @@ const data = [
 const isLocalStorageOn = false;
 const localStorageKey = "locations";
 
-
 async function getLoc() {
   if (isLocalStorageOn) {
     const loadCat = localStorage.getItem(localStorageKey);
     if (loadCat) db = [...loadCat];
-  } else if (!db) db = [...data]
+  } else if (!db) db = [...data];
   return _returnDB();
 }
 
@@ -97,12 +98,27 @@ function editOrAdd(newLoc) {
   _returnDB();
 }
 
-function _returnDB() {
+function _returnDB(newDb = db) {
   // SAVE TO LOCAL STORAGE :
-  let locations = db.map(c => c);
+  let locations = newDb.map(c => c);
   if (isLocalStorageOn) {
-    localStorage.setItem(localStorageKey, locations)
+    localStorage.setItem(localStorageKey, locations);
   }
   // return new array with no connection to original db
   return locations;
+}
+
+function sortBy(key, isAsec = true) {
+  const keyType = typeof db[0][key] || typeof data[0][key]
+  if (keyType === "string") {
+    if (isAsec) db.sort((a, b) => a[key].localeCompare(b[key]));
+    else db.sort((a, b) => b[key].localeCompare(a[key]));
+  } else db.sort();
+}
+
+
+function filterBy(value, key = 'category') {
+  if (!value) return
+  const filteredDb = db.filter(item => item[key] === value)
+  return filteredDb
 }

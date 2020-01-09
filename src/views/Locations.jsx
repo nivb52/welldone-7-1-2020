@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Cards from "../cmps/common/Cards";
 import locService from "../services/LocService";
+import catService from "../services/CatsService";
 
 // TODO :
 // .. LOCATION properties: name, address, coordinates, and category.
-// ADD LOCATION -> must associate with category
 // show location on the map
-// sort, group and filter location
+// ADD LOCATION -> must associate with category
 // manage location same as categories
 
 export default function Locations() {
-  useEffect(() => {
-    getLocations();
-  }, []);
-  //   useEffect(() => {}, locs);
-
-  //   let isAjaxingForCards = false;
+  const [categories, setCategories] = useState([
+    { id: null, name: "loading..." }
+  ]);
   const [locs, setLocs] = useState([]);
+
+  useEffect(async () => {
+    getLocations();
+    setCategories(await catService.getCat());
+  }, []);
+
+  //  let isAjaxing = false;
 
   const getLocations = async () => {
     setLocs(await locService.getLoc());
@@ -33,28 +37,46 @@ export default function Locations() {
     getLocations();
   };
 
-  const filterBy = () => {
-    console.log("filter");
+  const filterBy = e => {
+    const { value } = e.target;
+    if (value === 'all') getLocations()
+    const filteredDb = locService.filterBy(value, "category");
+    setLocs(filteredDb);
   };
+
   const groupBy = () => {
-    console.log("group");
+    locService.sortBy("category");
+    getLocations();
   };
+
+  const [isAsec, setIsAsec] = useState(true);
   const sortBy = () => {
-    locService.sortBy("name");
+    locService.sortBy("name", isAsec);
+    setIsAsec(!isAsec);
     getLocations();
   };
 
   return (
     <div className="locations-page">
       <div className="sidebar">
-        <button className="btn" onClick={filterBy}>
-          filter
-        </button>
+        {categories && categories[0] && (
+          <div>
+            filter
+            <select className="btn" onChange={filterBy}>
+            <option key='all' value='all'> All </option>
+              {categories.map(category => (
+                <option key={category.id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         <button className="btn" onClick={sortBy}>
-          sort
+          sort {isAsec ? " a - z" : " z    - a"}
         </button>
         <button className="btn" onClick={groupBy}>
-          group
+          group by category
         </button>
       </div>
       <Cards
