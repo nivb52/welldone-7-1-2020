@@ -19,6 +19,6 @@ footer {
 
 main {
   grid-area: main;
-  height: 90vh;
+  min-height: 90vh;
   margin: 0 5%;
 }
