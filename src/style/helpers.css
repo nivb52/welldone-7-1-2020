@@ -1,0 +1,15 @@
+.capitalized {
+    text-transform: capitalize !important;
+}
+
+.mr-top-1rem {
+    margin-top: 1rem !important;
+}
+
+.mr-bottom-1rem {
+    margin-bottom: 1rem !important;
+}
+
+.block {
+    display: block !important;
+}
