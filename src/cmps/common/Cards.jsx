@@ -2,37 +2,45 @@ import React, { useState } from "react";
 import Toolbar from "../Toolbar";
 import List from "./List";
 import Input from "./Input";
+import Mapbox from "../Mapbox";
 import "./cards.css";
 
 const Cards = ({
   cards,
   deleteCard,
   editOrAddCards,
-  title = "Global Cards"
+  title = "Global Cards",
+  inputs = ["name"],
+  editInputs = ["name"],
+  classInput = "mr-bottom-1rem",
+  currentEdit = () => {},
+  showMap,
+  children
 }) => {
   const [selectCard, setSelectCard] = useState();
   const [editCard, setEditCard] = useState();
   const [viewCard, setViewCard] = useState();
-  const [nameInput, setNameInput] = useState(editCard);
-
-  const handleCardChoose = id => {
-    if (id === selectCard) return setSelectCard();
-    setSelectCard(id);
-  };
 
   const _findCard = id => {
     return cards.find(c => c._id === id);
   };
 
+  const handleCardChoose = id => {
+    if (id === selectCard) return setSelectCard();
+    setSelectCard(id);
+    const foundCard = _findCard(id);
+    currentEdit(foundCard);
+  };
+
   const cardEdit = id => {
     const foundCard = _findCard(id);
     setEditCard(foundCard);
-    // will be set as edited on save
+    // will be set as edited on 'handleBlur'
   };
 
   const cardAdd = () => {
     setEditCard({});
-    // will be added on save
+    // will be added on 'handleBlur'
   };
 
   const cardDelete = id => {
@@ -41,21 +49,21 @@ const Cards = ({
   };
 
   const handleSave = () => {
-    // required field
-    if (!nameInput && !nameInput.trim()) return alert("you must enter name");
-    // else continue saving...
-    const editedCard = { ...editCard, name: nameInput };
-    editOrAddCards(editedCard);
+    editOrAddCards(editCard);
     unSelect();
+  };
+
+  const handleInput = (key, value) => {
+    setEditCard({ ...editCard, [key]: value });
+  };
+
+  const handleBlur = (key, value) => {
+    setEditCard({ ...editCard, [key]: value });
   };
 
   const cardView = id => {
     const foundCard = _findCard(id);
     setViewCard(foundCard);
-  };
-
-  const handleInput = value => {
-    setNameInput(value);
   };
 
   const onEnter = () => {
@@ -74,6 +82,9 @@ const Cards = ({
 
   return (
     <div className="cards">
+      {/* <!-- ================ ============== --> */}
+      {/* <!-- ========== Top Toolbar ============== --> */}
+      {/* <!-- ================ ============== --> */}
       <Toolbar
         id={selectCard}
         onEdit={editCard}
@@ -85,27 +96,55 @@ const Cards = ({
       >
         {title}
       </Toolbar>
-
-      {cards[0] && !editCard && !viewCard && (
+      {/* <!-- ================ ============== --> */}
+      {/* <!-- ========== LIST ============== --> */}
+      {/* <!-- ================ ============== --> */}
+      {cards && cards[0] && !editCard && !viewCard && (
         <List
           list={cards}
+          itemClass="capitalized"
           handleClick={handleCardChoose}
           classCondition={isHighlited}
         />
       )}
+      {/* <!-- ================ ============== --> */}
+      {/* <!-- =========== View Card ============== --> */}
+      {/* <!-- ================ ============== --> */}
       {viewCard && (
         <div className="view-card">
-          <span>{viewCard.name}</span>
+          {inputs &&
+            inputs.map((field, i) => {
+              return (
+                <span key={i} className="capitalized mr-bottom-1rem block">
+                  {viewCard[field]}
+                </span>
+              );
+            })}
         </div>
       )}
+      {/* <!-- ================ ============== --> */}
+      {/* <!-- ========== Edit Card & New Card ============== --> */}
+      {/* <!-- ================ ============== --> */}
       {editCard && (
-        <div className="edit-card">
-          <Input
-            onEnter={onEnter}
-            placeholder={editCard.name}
-            handleInput={handleInput}
-          />
-          <button className="btn" onClick={handleSave}>
+        <div className="edit-card capitalized">
+          {editInputs &&
+            editInputs[0] &&
+            editInputs.map((field, i) => {
+              return (
+                <Input
+                  key={i}
+                  label={field}
+                  classInput={classInput}
+                  onEnter={onEnter}
+                  placeholder={editCard[field] || field}
+                  defaultValue={editCard[field]}
+                  handleBlur={handleBlur}
+                  handleInput={handleInput}
+                />
+              );
+            })}
+          {children}
+          <button className="btn btn-save" onClick={handleSave}>
             save
           </button>
         </div>
