@@ -1,10 +1,11 @@
 import React from "react";
 export default function List({
   list,
+  handleClick,
   parentClass = "card",
   nameClass = "card-name",
-  handleClick,
-  classCondition
+  classCondition = () => {return},
+  itemClass = ''
 }) {
   return (
     <>
@@ -15,7 +16,7 @@ export default function List({
           onClick={() => handleClick(item._id)}
         >
           <div className={nameClass}>
-            <span>{item.name}</span>
+            <span className={itemClass}>{item.name}</span>
           </div>
         </div>
       ))}
