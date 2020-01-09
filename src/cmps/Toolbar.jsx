@@ -25,15 +25,15 @@ const Toolbar = ({ children, id, back, view, edit, onEdit, del, add }) => {
   return (
     <div className="toolbar">
       <h1>{children}</h1>
-
-      {!id && (
+      
+      {!onEdit && !id && (
         <>
           <button onClick={() => handleClick("add")} className="btn">
-            new category
+            new
           </button>
         </>
       )}
-      
+
       {onEdit && !id && (
         <button onClick={() => handleClick("back")} className="btn">
           back
