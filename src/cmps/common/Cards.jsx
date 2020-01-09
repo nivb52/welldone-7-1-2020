@@ -22,11 +22,13 @@ const Cards = ({
   const [viewCard, setViewCard] = useState();
 
   const _findCard = id => {
-    return cards.find(c => c._id === id);
+    let found = cards.find(c => c._id === id);
+    found = found === -1 ? null : found
+    return found
   };
 
   const handleCardChoose = id => {
-    if (id === selectCard) return setSelectCard();
+    if (id === selectCard) return unSelect();
     setSelectCard(id);
     const foundCard = _findCard(id);
     currentEdit(foundCard);
@@ -78,6 +80,7 @@ const Cards = ({
     setSelectCard();
     setEditCard();
     setViewCard();
+    currentEdit()
   };
 
   return (
@@ -120,7 +123,7 @@ const Cards = ({
                 </span>
               );
             })}
-          {viewCard && showMap && <Mapbox  coords={viewCard.coords}/>}
+          {viewCard && showMap && <Mapbox  coords={viewCard.coords} />}
         </div>
       )}
       {/* <!-- ================ ============== --> */}

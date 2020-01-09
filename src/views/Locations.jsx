@@ -21,7 +21,7 @@ export default function Locations({ isCategorryChanged }) {
   const [filteredBy, setFilteredBy] = useState("all");
 
   useEffect(() => {
-      getLocations();
+    getLocations();
   }, []);
 
   useEffect(() => {
@@ -50,6 +50,7 @@ export default function Locations({ isCategorryChanged }) {
   const editOrAddLocation = async editedLoc => {
     const newLoc = { ...editedLoc, category: selectCategoryOption };
     await locService.editOrAdd(newLoc);
+    setIsEditMode();
     getLocations();
   };
 
@@ -75,6 +76,10 @@ export default function Locations({ isCategorryChanged }) {
   };
 
   const currentEdit = editCard => {
+    // toogle sidebar
+    const onEditing = editCard ? true : false;
+    setIsEditMode(onEditing);
+    if (!editCard || !editCard.category) return
     // set currect option for the following html select options
     setSelectCategoryOption(editCard.category);
   };
@@ -84,32 +89,35 @@ export default function Locations({ isCategorryChanged }) {
     // set the select
     setSelectCategoryOption(value);
   };
-
+  const [isEditMode, setIsEditMode] = useState(false);
   return (
     <div className="locations-page">
-      <div className="sidebar">
-        {categories && categories[0] && (
-          <div>
-            filter
-            <Select
-              title=""
-              dataList={categories}
-              onSelect={filterBy}
-              selectedOption={filteredBy}
-              valueKey={"name"}
-              showKey={"name"}
-              optionClass="capitalized"
-              getSelectList={getCategories}
-            ></Select>
-          </div>
-        )}
-        <button className="btn" onClick={sortBy}>
-          sort {isAsec ? "  a - z" : "  z - a"}
-        </button>
-        <button className="btn" onClick={groupBy}>
-          group by category
-        </button>
-      </div>
+      {isEditMode && <div></div>}
+      {!isEditMode && (
+        <div className="sidebar">
+          {categories && categories[0] && (
+            <div>
+              filter
+              <Select
+                title=""
+                dataList={categories}
+                onSelect={filterBy}
+                selectedOption={filteredBy}
+                valueKey={"name"}
+                showKey={"name"}
+                optionClass="capitalized"
+                getSelectList={getCategories}
+              ></Select>
+            </div>
+          )}
+          <button className="btn" onClick={sortBy}>
+            sort {isAsec ? "  a - z" : "  z - a"}
+          </button>
+          <button className="btn" onClick={groupBy}>
+            group by category
+          </button>
+        </div>
+      )}
       <Cards
         cards={locs}
         deleteCard={deleteLocation}
