@@ -13,70 +13,70 @@ const data = [
     _id: "0ewad0",
     address: "address",
     name: "Brazil",
-    coords: { lat: 35.5451, lon: 37.5425 },
+    coords: [-0.481747846041145, 51.3233379650232],
     category: "Travel"
   },
   {
     _id: "1djaW1",
     address: "address",
     name: "Austria",
-    coords: { lat: 35.5451, lon: 37.5425 },
+    coords: [-0.481747846041145, 51.3233379650232],
     category: "Snowboard"
   },
   {
     _id: "2fAcp2",
     address: "address",
     name: "Portugal",
-    coords: { lat: 35.5451, lon: 37.5425 },
+    coords: [-0.481747846041145, 51.3233379650232],
     category: "Kitesurf"
   },
   {
     _id: "3dl0P3",
     address: "address",
     name: "Greece",
-    coords: { lat: 35.5451, lon: 37.5425 },
+    coords: [-0.481747846041145, 51.3233379650232],
     category: "Most Popular"
   },
   {
     _id: "4ljfq4",
     address: "address",
     name: "Israel",
-    coords: { lat: 35.5451, lon: 37.5425 },
+    coords: [-0.481747846041145, 51.3233379650232],
     category: "Most Popular"
   },
   {
     _id: "5XjNq5",
     address: "address",
     name: "Dubai",
-    coords: { lat: 35.5451, lon: 37.5425 },
+    coords: [-0.481747846041145, 51.3233379650232],
     category: "Luxury"
   },
   {
     _id: "6dape6",
     address: "address",
     name: "Spain",
-    coords: { lat: 35.5451, lon: 37.5425 },
+    coords: [-0.481747846041145, 51.3233379650232],
     category: "Trending"
   },
   {
     _id: "723de7",
     address: "address",
     name: "China",
-    coords: { lat: 35.5451, lon: 37.5425 },
+    coords: [-0.481747846041145, 51.3233379650232],
     category: "Hiking"
   },
   {
     _id: "8Y3de8",
     address: "address",
     name: "Timbaktu",
-    coords: { lat: 35.5451, lon: 37.5425 },
+    coords: [-0.481747846041145, 51.3233379650232],
     category: "Hiking"
   },
   {
     _id: "9gXpf9",
     address: "address",
     name: "France",
-    coords: { lat: 35.5451, lon: 37.5425 },
+    coords: [-0.481747846041145, 51.3233379650232],
     category: "Most Popular"
   }
 ];
