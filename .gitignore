@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+# Secrets
+/secrets/
+src/secrets/api.json
+
 # testing
 /coverage
 
