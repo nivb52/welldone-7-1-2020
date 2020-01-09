@@ -13,49 +13,70 @@ const data = [
     _id: "0ewad0",
     address: "address",
     name: "Brazil",
-    cords: { lat: 35.5451, lon: 37.5425 },
+    coords: { lat: 35.5451, lon: 37.5425 },
     category: "Travel"
   },
   {
     _id: "1djaW1",
     address: "address",
     name: "Austria",
-    cords: { lat: 35.5451, lon: 37.5425 },
+    coords: { lat: 35.5451, lon: 37.5425 },
     category: "Snowboard"
   },
   {
     _id: "2fAcp2",
     address: "address",
     name: "Portugal",
-    cords: { lat: 35.5451, lon: 37.5425 },
+    coords: { lat: 35.5451, lon: 37.5425 },
     category: "Kitesurf"
   },
   {
     _id: "3dl0P3",
     address: "address",
     name: "Greece",
-    cords: { lat: 35.5451, lon: 37.5425 },
+    coords: { lat: 35.5451, lon: 37.5425 },
     category: "Most Popular"
   },
   {
     _id: "4ljfq4",
     address: "address",
     name: "Israel",
-    cords: { lat: 35.5451, lon: 37.5425 },
+    coords: { lat: 35.5451, lon: 37.5425 },
     category: "Most Popular"
   },
   {
-    _id: "5dape5",
+    _id: "5XjNq5",
+    address: "address",
+    name: "Dubai",
+    coords: { lat: 35.5451, lon: 37.5425 },
+    category: "Luxury"
+  },
+  {
+    _id: "6dape6",
     address: "address",
     name: "Spain",
-    cords: { lat: 35.5451, lon: 37.5425 },
+    coords: { lat: 35.5451, lon: 37.5425 },
     category: "Trending"
   },
   {
-    _id: "6gXpf6",
+    _id: "723de7",
+    address: "address",
+    name: "China",
+    coords: { lat: 35.5451, lon: 37.5425 },
+    category: "Hiking"
+  },
+  {
+    _id: "8Y3de8",
+    address: "address",
+    name: "Timbaktu",
+    coords: { lat: 35.5451, lon: 37.5425 },
+    category: "Hiking"
+  },
+  {
+    _id: "9gXpf9",
     address: "address",
     name: "France",
-    cords: { lat: 35.5451, lon: 37.5425 },
+    coords: { lat: 35.5451, lon: 37.5425 },
     category: "Most Popular"
   }
 ];
@@ -119,6 +140,7 @@ function sortBy(key, isAsec = true) {
 
 function filterBy(value, key = 'category') {
   if (!value) return
+  if (value === 'all') return _returnDB()
   const filteredDb = db.filter(item => item[key] === value)
   return filteredDb
 }
