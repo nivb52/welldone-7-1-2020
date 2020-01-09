@@ -120,7 +120,7 @@ const Cards = ({
                 </span>
               );
             })}
-          {viewCard && showMap && <Mapbox />}
+          {viewCard && showMap && <Mapbox  coords={viewCard.coords}/>}
         </div>
       )}
       {/* <!-- ================ ============== --> */}
