@@ -1,7 +1,9 @@
-*,
-html {
+@import './helpers.css';
+
+* {
   box-sizing: border-box;
 }
+
 ul,
 li {
   text-decoration: none;
@@ -17,44 +19,38 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.cards {
-  margin: 0 auto;
+
+.locations-page {
+  display: grid;
+  grid-template-columns: 30px 5fr;
 }
 
-.card {
+.locations-page .cards {
+  margin: 0;
+}
+.locations-page .sidebar {
   display: flex;
   flex-direction: column;
-  flex-grow: 3;
-  margin: 1rem auto;
-  padding: 1rem 0;
-  height: 3em;
-  width: 30%;
-  border-style: groove;
-}
-.card-name {
   justify-content: center;
+  padding-left: 6vw;
+  height: 100vh;
+  transform: translateY(-10%);
+}
+.locations-page .sidebar > * {
   align-items: center;
 }
-
-.highlight {
-  background-color: yellow;
+.locations-page .sidebar button {
+  min-width: 6rem;
 }
-
-.card .edit-card,
-.card .view-card {
-  margin-top: 2.5rem;
-}
-
 footer .toggle-bar {
   height: 100%;
   display: flex;
   color: white;
-  background-color: rgba(0,0,0,0.85);
+  background-color: rgba(0, 0, 0, 0.85);
   justify-content: center;
   align-items: center;
 }
-.toggle-bar button {
-}
+
 /* ================== */
 /* BUTTONS  */
 /* ================== */
@@ -93,4 +89,10 @@ footer .toggle-bar {
 }
 .btn.btn-danger {
   background-color: #ff0000;
+}
+
+.btn.btn-save {
+  margin-top: 1rem;
+  display: block;
+  margin: 2rem auto;
 }
