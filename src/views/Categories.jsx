@@ -2,14 +2,19 @@ import React, {useEffect, useState} from "react";
 import Cards from "../cmps/common/Cards";
 import catService from "../services/CatsService";
 
-export default function Categories() {
+export default function Categories({onCategoryChange}) {
+  const [cats, setCats] = useState([]);
   
-  useEffect(() => {
-    getCategories();
+  useEffect( () => {
+    getCategories()
+    // eslint-disable-next-line
+    async function fetchData() {
+    const categories = await catService.getCat()
+      setCats(categories);
+    }
   }, []);
 
-  //   let isAjaxingForCards = false;
-  const [cats, setCats] = useState([]);
+  //   let isAjaxing = false;
   
   const getCategories = async () => {
     setCats(await catService.getCat());
@@ -18,12 +23,14 @@ export default function Categories() {
 
   const deleteCategory = async id => {
     await catService.delCat(id);
+    onCategoryChange()
     getCategories()
   };
   
 
   const editOrAddCategory = async editedCat => {
     await catService.editOrAdd(editedCat);
+    onCategoryChange()
     getCategories()
   };
   return (
