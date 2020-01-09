@@ -120,6 +120,7 @@ const Cards = ({
                 </span>
               );
             })}
+          {viewCard && showMap && <Mapbox />}
         </div>
       )}
       {/* <!-- ================ ============== --> */}
