@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Cards from "../cmps/common/Cards";
+import Crud from "../cmps/crud";
 import locService from "../services/LocService";
-import catService from "../services/CatsService";
+import catService from "../services/CatService";
 import Select from "../cmps/common/Select";
+import Map from "../cmps/map/";
+// import SearchableMap from "../cmps/map/SearchableMap";
+// import debounce from "lodash.debounce";
 
 // TODO :
 // .. LOCATION properties: name, address, coordinates, and category.
-// show location on the map
 
 export default function Locations({ isCategorryChanged }) {
   const fieldsToView = ["name", "address", "category"];
@@ -17,8 +19,10 @@ export default function Locations({ isCategorryChanged }) {
   ]);
   const [locs, setLocs] = useState([]);
   const [isAsec, setIsAsec] = useState(true);
-  const [selectCategoryOption, setSelectCategoryOption] = useState();
   const [filteredBy, setFilteredBy] = useState("all");
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [selectCategoryOption, setSelectCategoryOption] = useState();
+  const [locCoords, setLocCoords] = useState();
 
   useEffect(() => {
     getLocations();
@@ -48,7 +52,9 @@ export default function Locations({ isCategorryChanged }) {
 
   // service
   const editOrAddLocation = async editedLoc => {
-    const newLoc = { ...editedLoc, category: selectCategoryOption };
+    const coords = locCoords ? locCoords : editedLoc.coords;
+    console.log(coords);
+    const newLoc = { ...editedLoc, coords, category: selectCategoryOption };
     await locService.editOrAdd(newLoc);
     setIsEditMode();
     getLocations();
@@ -75,13 +81,26 @@ export default function Locations({ isCategorryChanged }) {
     getLocations();
   };
 
-  const currentEdit = editCard => {
+  const doOnSelect = editedLoc => {
     // toogle sidebar
-    const onEditing = editCard ? true : false;
+    const onEditing = editedLoc ? true : false;
     setIsEditMode(onEditing);
-    if (!editCard || !editCard.category) return
+    if (!editedLoc) return;
+    
+    // If there is an Location Item :
+    console.log("editedLoc", editedLoc);
+    const currCoords = editedLoc.coords ? editedLoc : [];
+
+    // set currect coords
+    if (editedLoc.coords) editedLoc.coords = locCoords;
+
     // set currect option for the following html select options
-    setSelectCategoryOption(editCard.category);
+    if (editedLoc.category) setSelectCategoryOption(editedLoc.category);
+  };
+
+  const editCoords = ({ latitude, longitude }) => {
+    // const coords = { longitude, latitude };
+    setLocCoords([longitude, latitude]);
   };
 
   const changeLocCategory = e => {
@@ -89,7 +108,7 @@ export default function Locations({ isCategorryChanged }) {
     // set the select
     setSelectCategoryOption(value);
   };
-  const [isEditMode, setIsEditMode] = useState(false);
+
   return (
     <div className="locations-page">
       {isEditMode && <div></div>}
@@ -118,17 +137,18 @@ export default function Locations({ isCategorryChanged }) {
           </button>
         </div>
       )}
-      <Cards
+      <Crud
+        title="Locations"
         cards={locs}
         deleteCard={deleteLocation}
         editOrAddCards={editOrAddLocation}
-        title="Locations"
         inputs={fieldsToView}
         editInputs={fieldsToEdit}
         classInput="mr-bottom-1rem"
-        currentEdit={currentEdit}
+        doOnSelect={doOnSelect}
         showMap={true}
       >
+        {/* children */}
         <Select
           title="category"
           isShowAllOption={false}
@@ -140,7 +160,10 @@ export default function Locations({ isCategorryChanged }) {
           optionClass="capitalized"
           getSelectList={getCategories}
         ></Select>
-      </Cards>
+        {isEditMode && (
+          <Map coords={locCoords} isEditable={true} editCoords={editCoords} />
+        )}
+      </Crud>
     </div>
   );
 }
