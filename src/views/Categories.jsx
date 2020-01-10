@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import Cards from "../cmps/common/Cards";
-import catService from "../services/CatsService";
+import Crud from "../cmps/crud/";
+import catService from "../services/CatService";
 
 export default function Categories({onCategoryChange}) {
   const [cats, setCats] = useState([]);
@@ -35,12 +35,12 @@ export default function Categories({onCategoryChange}) {
   };
   return (
     <>
-      <Cards
+      <Crud
         cards={cats}
         deleteCard={deleteCategory}
         editOrAddCards={editOrAddCategory}
         title = "Categories"
-      ></Cards>
+      ></Crud>
     </>
   );
 }
