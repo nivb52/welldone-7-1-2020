@@ -1,40 +1,61 @@
-import React from "react";
-import ReactMapboxGl, { Marker } from "react-mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
 import "./mapbox.css";
-const api = require("../../secrets/api.json");
 
-export default function Mapbox({ coords }) {
-  const Map = ReactMapboxGl({
-    accessToken: api.mapbox
+import React, { useState } from "react";
+import MapGL, { GeolocateControl } from "react-map-gl";
+
+const token = require("../../secrets/api.json");
+
+const TOKEN = token.mapbox;
+
+const geolocateStyle = {
+//   display: isEditable ? "block" : "none",
+  float: "left",
+  margin: "50px",
+  padding: "10px"
+};
+
+const Map = ({ coords, editCoords = null, isEditable = false }) => {
+  const longitude = coords && coords[0] ? coords[0] : 0;
+  const latitude = coords && coords[1] ? coords[1] : 0;
+
+  const [viewport, setViewPort] = useState({
+    width: "70vw",
+    height: "60vh",
+    longitude,
+    latitude,
+    zoom: 3
   });
 
-  const circlePaint = () => ({
-    "circle-radius": 10,
-    "circle-color": "#ee4e52",
-    "circle-opacity": 0.8
-  });
+  const _onViewportChange = viewport => {
+    if (!isEditable) return;
+    setViewPort({ ...viewport, transitionDuration: 3000 });
+    if (editCoords) editCoords(viewport);
+  };
 
   return (
-    <>
-      <div className="mapbox sidebar-ovelay">
-        <div>
-          Longitude: {coords[0]} | Latitude: {coords[1]}
-        </div>
-      </div>
-      <Map
-        style="mapbox://styles/mapbox/outdoors-v9"
-        className="mapbox map"
+    <div style={{ margin: "0 auto" }}>
+      <MapGL
+        {...viewport}
+        mapboxApiAccessToken={TOKEN}
+        mapStyle="mapbox://styles/mapbox/outdoors-v9"
+        onViewportChange={_onViewportChange}
       >
-        <Marker coordinates={coords} anchor="top" onClick={()=>{console.log('map click')}}>
-          <img alt="😑" src="http://www.pngall.com/wp-content/uploads/2017/05/Map-Marker-Free-Download-PNG.png" />
-        </Marker>
-      </Map>
-    </>
+        <GeolocateControl
+          style={geolocateStyle}
+          positionOptions={{ enableHighAccuracy: true }}
+          trackUserLocation={true}
+        />
+      </MapGL>
+      {!isEditable && (
+        <div className="mapbox sidebar-ovelay">
+          <figcaption>
+            Longitude: {viewport.longitude} | Latitude: {viewport.latitude}
+          </figcaption>
+        </div>
+      )}
+    </div>
   );
-}
+};
 
-{
-  /* <Layer type="circle" id="marker" paint={circlePaint()}>
-        <Feature coordinates={coords} onDrag={(_,e) => {console.log(e)}} />
-      </Layer> */
-}
+export default Map;

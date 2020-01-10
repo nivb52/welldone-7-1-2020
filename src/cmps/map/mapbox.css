@@ -1,11 +1,6 @@
 .mapbox.sidebar-ovelay {
   display: none;
 }
-.mapbox.map {
-    height: 50vh;
-    width: 100%;
-    min-width: 350px;
-}
 
 @media (min-width: 500px) {
   .mapbox.sidebar-ovelay {
@@ -19,11 +14,5 @@
     padding: 6px;
     transform: translate3d(0, 3vh, 0);
     font-size: 0.7rem;
-  }
-
-  .mapbox.map {
-    transform: translate3d(50%, -10px, 0);
-    height: 50vh;
-    width: 50%;
   }
 }
