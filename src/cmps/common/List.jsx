@@ -13,10 +13,11 @@ export default function List({
         <div
           className={parentClass + " " + classCondition(item)}
           key={item._id}
-          onClick={() => handleClick(item._id)}
+          onClick={() => handleClick(item)}
         >
           <div className={nameClass}>
             <span className={itemClass}>{item.name}</span>
+            {item.coords && <span className={'block   ' + itemClass}>{item.coords}</span>}
           </div>
         </div>
       ))}
