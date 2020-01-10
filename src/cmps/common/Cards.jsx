@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Toolbar from "../Toolbar";
 import List from "./List";
 import Input from "./Input";
-import Mapbox from "../Mapbox";
+import Mapbox from "../map";
 import "./cards.css";
 
 const Cards = ({
@@ -119,7 +119,7 @@ const Cards = ({
             inputs.map((field, i) => {
               return (
                 <span key={i} className="capitalized mr-bottom-1rem block">
-                  {viewCard[field]}
+                  {field +' : '+ viewCard[field]}
                 </span>
               );
             })}

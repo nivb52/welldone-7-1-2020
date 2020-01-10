@@ -13,70 +13,70 @@ const data = [
     _id: "0ewad0",
     address: "address",
     name: "Brazil",
-    coords: [-0.481747846041145, 51.3233379650232],
+    coords: [43.4416815, -20.4285582],
     category: "Travel"
   },
   {
     _id: "1djaW1",
     address: "address",
     name: "Austria",
-    coords: [-0.481747846041145, 51.3233379650232],
+    coords: [-33.4416815, -20.4285582],
     category: "Snowboard"
   },
   {
     _id: "2fAcp2",
     address: "address",
     name: "Portugal",
-    coords: [-0.481747846041145, 51.3233379650232],
+    coords: [11.4416815, 31.4285582],
     category: "Kitesurf"
   },
   {
     _id: "3dl0P3",
     address: "address",
     name: "Greece",
-    coords: [-0.481747846041145, 51.3233379650232],
+    coords: [22.4416815, 32.4285582],
     category: "Most Popular"
   },
   {
     _id: "4ljfq4",
     address: "address",
     name: "Israel",
-    coords: [-0.481747846041145, 51.3233379650232],
+    coords: [-32.4416815, 31.4285582],
     category: "Most Popular"
   },
   {
     _id: "5XjNq5",
     address: "address",
     name: "Dubai",
-    coords: [-0.481747846041145, 51.3233379650232],
+    coords: [-3.4416815, 31.4285582],
     category: "Luxury"
   },
   {
     _id: "6dape6",
     address: "address",
     name: "Spain",
-    coords: [-0.481747846041145, 51.3233379650232],
+    coords: [-0.2416815, 54.5285582],
     category: "Trending"
   },
   {
     _id: "723de7",
     address: "address",
     name: "China",
-    coords: [-0.481747846041145, 51.3233379650232],
+    coords: [-0.24234815, 51.5283212],
     category: "Hiking"
   },
   {
     _id: "8Y3de8",
     address: "address",
     name: "Timbaktu",
-    coords: [-0.481747846041145, 51.3233379650232],
+    coords: [-0.2416815, 51.5285582],
     category: "Hiking"
   },
   {
     _id: "9gXpf9",
     address: "address",
     name: "France",
-    coords: [-0.481747846041145, 51.3233379650232],
+    coords: [-0.2416815, 51.5285582],
     category: "Most Popular"
   }
 ];

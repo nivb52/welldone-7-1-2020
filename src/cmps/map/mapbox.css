@@ -1,0 +1,29 @@
+.mapbox.sidebar-ovelay {
+  display: none;
+}
+.mapbox.map {
+    height: 50vh;
+    width: 100%;
+    min-width: 350px;
+}
+
+@media (min-width: 500px) {
+  .mapbox.sidebar-ovelay {
+    display: inline-block;
+    position: absolute;
+    top: 75vh;
+    left: 29vw;
+    background-color: #404040;
+    color: #ffffff;
+    z-index: 1 !important;
+    padding: 6px;
+    transform: translate3d(0, 3vh, 0);
+    font-size: 0.7rem;
+  }
+
+  .mapbox.map {
+    transform: translate3d(50%, -10px, 0);
+    height: 50vh;
+    width: 50%;
+  }
+}
