@@ -112,7 +112,8 @@ function _addLoc(newLoc) {
 function editOrAdd(newLoc) {
   // return on empty
   if (!newLoc) return;
-
+  console.log(newLoc.coords);
+  
   // toggle between edit and add
   if (newLoc._id) _editLoc(newLoc);
   else _addLoc(newLoc);

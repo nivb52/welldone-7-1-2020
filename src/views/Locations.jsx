@@ -52,6 +52,7 @@ export default function Locations({ isCategorryChanged }) {
 
   // service
   const editOrAddLocation = async editedLoc => {
+    if (!isEditMode) return;
     const coords = locCoords ? locCoords : editedLoc.coords;
     console.log(coords);
     const newLoc = { ...editedLoc, coords, category: selectCategoryOption };
@@ -83,19 +84,15 @@ export default function Locations({ isCategorryChanged }) {
 
   const doOnSelect = editedLoc => {
     // toogle sidebar
-    const onEditing = editedLoc ? true : false;
+    const onEditing = (editedLoc && editedLoc._id) ? true : false;
     setIsEditMode(onEditing);
-    if (!editedLoc) return;
-    
-    // If there is an Location Item :
-    console.log("editedLoc", editedLoc);
-    const currCoords = editedLoc.coords ? editedLoc : [];
-
-    // set currect coords
-    if (editedLoc.coords) editedLoc.coords = locCoords;
+    if (!onEditing) return;
 
     // set currect option for the following html select options
     if (editedLoc.category) setSelectCategoryOption(editedLoc.category);
+    
+    // set currect coords
+    if (editedLoc.coords) editCoords(editedLoc.coords);
   };
 
   const editCoords = ({ latitude, longitude }) => {

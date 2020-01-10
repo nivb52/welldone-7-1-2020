@@ -65,7 +65,6 @@ const Cards = ({
   const [viewCard, setViewCard] = useState();
   
   const handleCardChoose = item => {
-    // TODO : Check why i can see coords
     if (item._id === selectCardId) unSelect();
     else {
       console.log('item ', item);
