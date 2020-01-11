@@ -58,13 +58,14 @@ export default function Locations({ isCategorryChanged }) {
     if (!isEditMode) return;
     const coords = currentCoords ? currentCoords : editedLoc.coords;
     const address = currentAddress ? currentAddress : editedLoc.address;
-    console.log('editOrAddLocation : ',currentAddress);
     const newLoc = {
       ...editedLoc,
       address,
       coords,
       category: selectCategoryOption
     };
+
+    console.log('edited ! ');
     await locService.editOrAdd(newLoc);
     setIsEditMode();
     getLocations();
