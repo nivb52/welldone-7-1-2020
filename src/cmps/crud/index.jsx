@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import "./cards.css";
+
+import React, { useState, Suspense } from "react";
 import Toolbar from "./Toolbar";
 import List from "../common/List";
 import Input from "../common/Input";
-import Mapbox from "../map";
-import "./cards.css";
+// import Mapbox from "../map";
+
+const Map = React.lazy(() => import("../map"));
 
 const Cards = ({
   cards,
@@ -77,12 +80,14 @@ const Cards = ({
   const cardEdit = id => {
     const foundCard = _findCard(id);
     setEditCard(foundCard);
+    setViewCard();
     // will be set as edited on 'handleBlur'
   };
 
   const cardView = id => {
     const foundCard = _findCard(id);
     setViewCard(foundCard);
+    setEditCard();
   };
 
   const isHighlited = c => {
@@ -136,7 +141,7 @@ const Cards = ({
                 </span>
               );
             })}
-          {viewCard && showMap && <Mapbox coords={viewCard.coords} />}
+          {viewCard && showMap && <Suspense><Map coords={viewCard.coords} /></Suspense>}
         </div>
       )}
       {/* <!-- ================ ============== --> */}
