@@ -1,4 +1,5 @@
-import { makeId } from "./UtilServices.js";
+import { makeId } from "./UtilServices";
+import { isLocalStorageOn } from "./config";
 
 export default {
   getLoc,
@@ -7,6 +8,7 @@ export default {
   sortBy,
   filterBy
 };
+
 let db;
 const data = [
   {
@@ -80,13 +82,14 @@ const data = [
     category: "Most Popular"
   }
 ];
-const isLocalStorageOn = false;
+
 const localStorageKey = "locations";
 
 async function getLoc() {
   if (isLocalStorageOn) {
-    const loadCat = localStorage.getItem(localStorageKey);
-    if (loadCat) db = [...loadCat];
+    const loadedDB = JSON.parse(localStorage.getItem(localStorageKey));
+    if (loadedDB) db = [...loadedDB];
+    else db = [...data];
   } else if (!db) db = [...data];
   return _returnDB();
 }
@@ -112,8 +115,7 @@ function _addLoc(newLoc) {
 function editOrAdd(newLoc) {
   // return on empty
   if (!newLoc) return;
-  console.log(newLoc.coords);
-  
+
   // toggle between edit and add
   if (newLoc._id) _editLoc(newLoc);
   else _addLoc(newLoc);
@@ -124,24 +126,23 @@ function _returnDB(newDb = db) {
   // SAVE TO LOCAL STORAGE :
   let locations = newDb.map(c => c);
   if (isLocalStorageOn) {
-    localStorage.setItem(localStorageKey, locations);
+    localStorage.setItem(localStorageKey, JSON.stringify(locations));
   }
   // return new array with no connection to original db
   return locations;
 }
 
 function sortBy(key, isAsec = true) {
-  const keyType = typeof db[0][key] || typeof data[0][key]
+  const keyType = typeof db[0][key] || typeof data[0][key];
   if (keyType === "string") {
     if (isAsec) db.sort((a, b) => a[key].localeCompare(b[key]));
     else db.sort((a, b) => b[key].localeCompare(a[key]));
   } else db.sort();
 }
 
-
-function filterBy(value, key = 'category') {
-  if (!value) return
-  if (value === 'all') return _returnDB()
-  const filteredDb = db.filter(item => item[key] === value)
-  return filteredDb
+function filterBy(value, key = "category") {
+  if (!value) return;
+  if (value === "all") return _returnDB();
+  const filteredDb = db.filter(item => item[key] === value);
+  return filteredDb;
 }

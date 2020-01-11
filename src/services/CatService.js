@@ -1,10 +1,12 @@
 import { makeId } from "./UtilServices.js";
+import {isLocalStorageOn} from './config';
 
 export default {
   getCat,
   delCat,
   editOrAdd
 };
+let db;
 const data = [
   { _id: "0ewad0", name: "Travel" },
   { _id: "1djaW1", name: "Snowboard" },
@@ -14,14 +16,14 @@ const data = [
   { _id: "5dape5", name: "Trending" },
   { _id: "6gXpf6", name: "Most Popular" }
 ];
-let db;
-const isLocalStorageOn = false;
+
 const localStorageKey = "categories";
 
 async function getCat() {
   if (isLocalStorageOn) {
-    const loadCat = localStorage.getItem(localStorageKey);
-    if (loadCat) db = [...loadCat];
+    const loadedDB = JSON.parse(localStorage.getItem(localStorageKey));
+    if (loadedDB) db = [...loadedDB];
+    else db = [...data];
   } else if(!db) db = [...data];
   return _returnDB();
 }
@@ -59,7 +61,7 @@ function _returnDB() {
   let categories = db.map(c => c);
   // SAVE TO LOCAL STORAGE :
   if (isLocalStorageOn) {
-    localStorage.setItem(localStorageKey, categories);
+    localStorage.setItem(localStorageKey,JSON.stringify(categories));
   }
   return categories;
 }
