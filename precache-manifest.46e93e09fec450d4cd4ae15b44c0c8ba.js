@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "621b81426584757610d2b2d453cb9c87",
+    "revision": "9c6ca2f7c0dfd0f102cc6de11843a94d",
     "url": "/welldone-7-1-2020/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/welldone-7-1-2020/static/css/2.86b88f3a.chunk.css"
   },
   {
-    "revision": "592873107d0472636d1e",
+    "revision": "87a6eb68c97008f72df6",
     "url": "/welldone-7-1-2020/static/css/main.6aa58d90.chunk.css"
   },
   {
@@ -24,8 +24,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/welldone-7-1-2020/static/js/3.bc674656.chunk.js"
   },
   {
-    "revision": "592873107d0472636d1e",
-    "url": "/welldone-7-1-2020/static/js/main.7939cdf2.chunk.js"
+    "revision": "87a6eb68c97008f72df6",
+    "url": "/welldone-7-1-2020/static/js/main.0b0ba4eb.chunk.js"
   },
   {
     "revision": "511ff88114604d77fb84",
