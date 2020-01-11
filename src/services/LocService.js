@@ -1,4 +1,4 @@
-import { makeId } from "./UtilServices";
+import { makeId, localStor } from "./UtilServices";
 import { isLocalStorageOn } from "./config";
 
 export default {
@@ -86,19 +86,45 @@ const data = [
 const localStorageKey = "locations";
 
 async function getLoc() {
-  if (isLocalStorageOn) {
-    const loadedDB = JSON.parse(localStorage.getItem(localStorageKey));
-    if (loadedDB) db = [...loadedDB];
-    else db = [...data];
-  } else if (!db) db = [...data];
-  return _returnDB();
+  if (!isLocalStorageOn) {
+    if (!db) db = [...data];
+  } else {
+    // LOCAL STORAGE :
+    const loadedDB = localStor(localStorageKey) 
+    if (loadedDB && loadedDB[0]) db = [...loadedDB];
+    else db = data; //on 1st visit get db from local
+  }
+  return _returnDB(db);
 }
 
+function _returnDB(newDb = db) {
+  if (newDb) db = newDb
+  // SAVE TO LOCAL STORAGE :
+  if (isLocalStorageOn) {
+    localStor(localStorageKey,newDb)
+  }
+  // return new array with no connection to original db
+  let locations = newDb.map(c => c);
+  return locations;
+}
+
+// =====================
+// CRUD
 async function delLoc(id) {
   const index = db.findIndex(c => c._id === id);
   if (index === -1) return;
   db.splice(index, 1);
   _returnDB();
+}
+
+function editOrAdd(newLoc) {
+  // return on empty
+  if (!newLoc) return;
+
+  // toggle between edit and add
+  if (newLoc._id) _editLoc(newLoc);
+  else _addLoc(newLoc);
+  _returnDB(db);
 }
 
 function _editLoc(newLoc) {
@@ -112,32 +138,16 @@ function _addLoc(newLoc) {
   db.push(newLoc);
 }
 
-function editOrAdd(newLoc) {
-  // return on empty
-  if (!newLoc) return;
 
-  // toggle between edit and add
-  if (newLoc._id) _editLoc(newLoc);
-  else _addLoc(newLoc);
-  _returnDB();
-}
-
-function _returnDB(newDb = db) {
-  // SAVE TO LOCAL STORAGE :
-  let locations = newDb.map(c => c);
-  if (isLocalStorageOn) {
-    localStorage.setItem(localStorageKey, JSON.stringify(locations));
-  }
-  // return new array with no connection to original db
-  return locations;
-}
-
+// =====================
+// SORT & FILTER
 function sortBy(key, isAsec = true) {
   const keyType = typeof db[0][key] || typeof data[0][key];
   if (keyType === "string") {
     if (isAsec) db.sort((a, b) => a[key].localeCompare(b[key]));
     else db.sort((a, b) => b[key].localeCompare(a[key]));
   } else db.sort();
+  return _returnDB(db)
 }
 
 function filterBy(value, key = "category") {
@@ -146,3 +156,4 @@ function filterBy(value, key = "category") {
   const filteredDb = db.filter(item => item[key] === value);
   return filteredDb;
 }
+
