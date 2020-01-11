@@ -4,21 +4,30 @@ import "./mapbox.css";
 
 import React, { useState, Suspense } from "react";
 import MapGL, { Marker } from "react-map-gl";
-// Lazy load
+
+// Lazy Load (with React Suspense)
 const GeolocateControl = React.lazy(() => import("react-map-gl"));
 const Geocoder = React.lazy(() => import("react-map-gl-geocoder"));
 
+// TOKEN
 const token = require("../../secrets/api.json");
 const TOKEN = token.mapbox;
 
-// Local vars
+// UTIL FOR RE-USE
+const isExitsAsFunc = (f) => {
+    return f && typeof f === "function"
+}
+
+// Style
 const geolocateStyle = {
   float: "left",
   margin: "50px",
   padding: "10px"
 };
 
-// .. The Map Component => 
+// =======================
+// =======================
+// Map Component => 
 const Map = ({
   coords,
   editCoords = null,
@@ -38,23 +47,24 @@ const Map = ({
   const mapRef = React.useRef();
 
   const handleOnResult = ({ result }) => {
-    console.log(result);
     const { coordinates } = result.geometry;
     const [longitude, latitude] = coordinates;
     setViewPort({ ...viewport, longitude, latitude, transitionDuration: 3000 });
-    // emit
-    if (editCoords && typeof editCoords === "function") {
-      editCoords(viewport);
-    }
-    if (editAddressByGeocoder && typeof editAddressByGeocoder === "function") {
-      editAddressByGeocoder(result);
-    }
-  };
 
-  const _onViewportChange = viewport => {
+    // emits
+    if (isExitsAsFunc(editCoords)) {
+        editCoords(viewport);
+    }
+    if (isExitsAsFunc(editAddressByGeocoder)) {
+        editAddressByGeocoder(result);
+    }
+};
+
+const _onViewportChange = viewport => {
     if (!isEditable) return ;
     setViewPort({ ...viewport, transitionDuration: 3000 });
-    if (editCoords) editCoords(viewport);
+    // emit
+    if (isExitsAsFunc(editCoords)) editCoords(viewport);
   };
 
   return (
