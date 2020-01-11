@@ -53,19 +53,20 @@ export default function Locations({ isCategorryChanged }) {
 
   // service
   const editOrAddLocation = async editedLoc => {
-    if (!isEditMode) return;
     const coords = currentCoords ? currentCoords : editedLoc.coords;
     const address = currentAddress ? currentAddress : editedLoc.address;
+    
+    // creating the new/edited location
     const newLoc = {
       ...editedLoc,
       address,
       coords,
       category: selectCategoryOption
     };
-
-    console.log('edited ! ');
+    
     await locService.editOrAdd(newLoc);
-    setIsEditMode();
+    console.log('edited ! ');
+    setIsEditMode(false);
     getLocations();
   };
 
@@ -90,18 +91,19 @@ export default function Locations({ isCategorryChanged }) {
     getLocations();
   };
 
-  const doOnSelect = editedLoc => {
+  const doOnSelect = choosenLoc => {
     // toogle sidebar
-    const onEditing = editedLoc && editedLoc._id ? true : false;
+    const onEditing = choosenLoc && choosenLoc._id ? true : false;
     setIsEditMode(onEditing);
     if (!onEditing) return;
 
     // set currect option for the following html select options
-    if (editedLoc.category) setSelectCategoryOption(editedLoc.category);
+    if (choosenLoc.category) setSelectCategoryOption(choosenLoc.category);
 
     // set currect coords
-    if (editedLoc.coords) editCoords(editedLoc.coords);
+    if (choosenLoc.coords) editCoords(choosenLoc.coords);
   };
+
 
   const editCoords = ({ latitude, longitude }) => {
     // const coords = { longitude, latitude };
