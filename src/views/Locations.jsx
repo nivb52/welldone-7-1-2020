@@ -124,6 +124,7 @@ export default function Locations({ isCategorryChanged }) {
   return (
     <div className="locations-page">
       {isEditMode && <div></div>}
+      {/* toggle sidebar by location select */}
       {!isEditMode && (
         <div className="sidebar">
           {categories && categories[0] && (
