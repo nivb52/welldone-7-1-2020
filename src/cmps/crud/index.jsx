@@ -4,7 +4,6 @@ import React, { useState, Suspense } from "react";
 import Toolbar from "./Toolbar";
 import List from "../common/List";
 import Input from "../common/Input";
-// import Mapbox from "../map";
 
 const Map = React.lazy(() => import("../map"));
 
@@ -46,7 +45,7 @@ const Cards = ({
     editOrAddCards(editCard);
     unSelect();
   };
-  
+
   const handleInput = (key, value) => {
     setEditCard({ ...editCard, [key]: value });
   };
@@ -66,11 +65,11 @@ const Cards = ({
   const [selectCardId, setSelectCardId] = useState();
   const [editCard, setEditCard] = useState();
   const [viewCard, setViewCard] = useState();
-  
+
   const handleCardChoose = item => {
     if (item._id === selectCardId) unSelect();
     else {
-      console.log('item ', item);
+      console.log("item ", item);
       // emit to parent
       doOnSelect(item);
       setSelectCardId(item._id);
@@ -141,7 +140,11 @@ const Cards = ({
                 </span>
               );
             })}
-          {viewCard && showMap && <Suspense><Map coords={viewCard.coords} /></Suspense>}
+          {viewCard && showMap && (
+            <Suspense fallback={<div>Loading...</div>}>
+              <Map coords={viewCard.coords} />
+            </Suspense>
+          )}
         </div>
       )}
       {/* <!-- ================ ============== --> */}
