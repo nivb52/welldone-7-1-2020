@@ -3,8 +3,6 @@ import Crud from "../cmps/crud";
 import locService from "../services/LocService";
 import catService from "../services/CatService";
 import Select from "../cmps/common/Select";
-// import Map from "../cmps/map/";
-
 const Map = React.lazy(() => import("../cmps/map/"));
 
 //For Crud component :
