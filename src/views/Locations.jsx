@@ -1,28 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Crud from "../cmps/crud";
 import locService from "../services/LocService";
 import catService from "../services/CatService";
 import Select from "../cmps/common/Select";
-import Map from "../cmps/map/";
-// import SearchableMap from "../cmps/map/SearchableMap";
-// import debounce from "lodash.debounce";
+// import Map from "../cmps/map/";
 
-// TODO :
-// .. LOCATION properties: name, address, coordinates, and category.
+const Map = React.lazy(() => import("../cmps/map/"));
 
+//For Crud component :
+const fieldsToView = ["name", "address", "category"];
+const fieldsToEdit = ["name", "address"];
+
+// ==================
+// Location component:
 export default function Locations({ isCategorryChanged }) {
-  const fieldsToView = ["name", "address", "category"];
-  const fieldsToEdit = ["name", "address"];
-
   const [categories, setCategories] = useState([
-    { id: null, name: "loading..." }
+    { _id: 0, name: "loading..." }
   ]);
+
   const [locs, setLocs] = useState([]);
   const [isAsec, setIsAsec] = useState(true);
   const [filteredBy, setFilteredBy] = useState("all");
   const [isEditMode, setIsEditMode] = useState(false);
+  // current card state (on emited changed)
   const [selectCategoryOption, setSelectCategoryOption] = useState();
-  const [locCoords, setLocCoords] = useState();
+  const [currentCoords, setCurrentCoords] = useState();
+  const [currentAddress, setCurrentAddress] = useState();
 
   useEffect(() => {
     getLocations();
@@ -53,9 +56,15 @@ export default function Locations({ isCategorryChanged }) {
   // service
   const editOrAddLocation = async editedLoc => {
     if (!isEditMode) return;
-    const coords = locCoords ? locCoords : editedLoc.coords;
-    console.log(coords);
-    const newLoc = { ...editedLoc, coords, category: selectCategoryOption };
+    const coords = currentCoords ? currentCoords : editedLoc.coords;
+    const address = currentAddress ? currentAddress : editedLoc.address;
+    console.log('editOrAddLocation : ',currentAddress);
+    const newLoc = {
+      ...editedLoc,
+      address,
+      coords,
+      category: selectCategoryOption
+    };
     await locService.editOrAdd(newLoc);
     setIsEditMode();
     getLocations();
@@ -84,20 +93,25 @@ export default function Locations({ isCategorryChanged }) {
 
   const doOnSelect = editedLoc => {
     // toogle sidebar
-    const onEditing = (editedLoc && editedLoc._id) ? true : false;
+    const onEditing = editedLoc && editedLoc._id ? true : false;
     setIsEditMode(onEditing);
     if (!onEditing) return;
 
     // set currect option for the following html select options
     if (editedLoc.category) setSelectCategoryOption(editedLoc.category);
-    
+
     // set currect coords
     if (editedLoc.coords) editCoords(editedLoc.coords);
   };
 
   const editCoords = ({ latitude, longitude }) => {
     // const coords = { longitude, latitude };
-    setLocCoords([longitude, latitude]);
+    setCurrentCoords([longitude, latitude]);
+  };
+
+  const editAddress = ({ text , place_name}) => {
+    const  address  = text || place_name;
+    setCurrentAddress(address);
   };
 
   const changeLocCategory = e => {
@@ -158,7 +172,14 @@ export default function Locations({ isCategorryChanged }) {
           getSelectList={getCategories}
         ></Select>
         {isEditMode && (
-          <Map coords={locCoords} isEditable={true} editCoords={editCoords} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Map
+              coords={currentCoords}
+              isEditable={true}
+              editCoords={editCoords}
+              editAddressByGeocoder={editAddress}
+            />
+          </Suspense>
         )}
       </Crud>
     </div>
