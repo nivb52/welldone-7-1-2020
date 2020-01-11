@@ -1,4 +1,4 @@
-import { makeId } from "./UtilServices.js";
+import { makeId, localStor } from "./UtilServices.js";
 import {isLocalStorageOn} from './config';
 
 export default {
@@ -6,6 +6,7 @@ export default {
   delCat,
   editOrAdd
 };
+
 let db;
 const data = [
   { _id: "0ewad0", name: "Travel" },
@@ -21,13 +22,26 @@ const localStorageKey = "categories";
 
 async function getCat() {
   if (isLocalStorageOn) {
-    const loadedDB = JSON.parse(localStorage.getItem(localStorageKey));
+    const loadedDB = localStor(localStorageKey);
     if (loadedDB) db = [...loadedDB];
     else db = [...data];
   } else if(!db) db = [...data];
   return _returnDB();
 }
 
+
+function _returnDB() {
+  // return new array with no connection to original db
+  let categories = db.map(c => c);
+  // SAVE TO LOCAL STORAGE :
+  if (isLocalStorageOn) {
+    localStor(localStorageKey,categories)
+  }
+  return categories;
+}
+
+//==========================
+//CRUD
 async function delCat(id) {
   const index = db.findIndex(c => c._id === id);
   if (index === -1) return;
@@ -56,12 +70,3 @@ function editOrAdd(newCat) {
   _returnDB();
 }
 
-function _returnDB() {
-  // return new array with no connection to original db
-  let categories = db.map(c => c);
-  // SAVE TO LOCAL STORAGE :
-  if (isLocalStorageOn) {
-    localStorage.setItem(localStorageKey,JSON.stringify(categories));
-  }
-  return categories;
-}
