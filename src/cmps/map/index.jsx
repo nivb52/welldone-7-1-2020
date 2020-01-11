@@ -2,14 +2,14 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "./mapbox.css";
 
 import React, { useState } from "react";
-import MapGL, { GeolocateControl } from "react-map-gl";
+import MapGL, { GeolocateControl, Marker } from "react-map-gl";
 
 const token = require("../../secrets/api.json");
 
 const TOKEN = token.mapbox;
 
 const geolocateStyle = {
-//   display: isEditable ? "block" : "none",
+  //   display: isEditable ? "block" : "none",
   float: "left",
   margin: "50px",
   padding: "10px"
@@ -24,7 +24,7 @@ const Map = ({ coords, editCoords = null, isEditable = false }) => {
     height: "60vh",
     longitude,
     latitude,
-    zoom: 3
+    zoom: 4
   });
 
   const _onViewportChange = viewport => {
@@ -34,18 +34,30 @@ const Map = ({ coords, editCoords = null, isEditable = false }) => {
   };
 
   return (
-    <div style={{ margin: "0 auto" }}>
+    <div style={{ display: "flex", justifyContent: "center" }}>
       <MapGL
         {...viewport}
         mapboxApiAccessToken={TOKEN}
         mapStyle="mapbox://styles/mapbox/outdoors-v9"
         onViewportChange={_onViewportChange}
       >
-        <GeolocateControl
-          style={geolocateStyle}
-          positionOptions={{ enableHighAccuracy: true }}
-          trackUserLocation={true}
-        />
+        <Marker
+          latitude={latitude}
+          longitude={longitude}
+          offsetLeft={-20}
+          offsetTop={-10}
+        >
+          <div>👇</div>
+        </Marker>
+
+        {isEditable && (
+          <GeolocateControl
+            style={geolocateStyle}
+            positionOptions={{ enableHighAccuracy: true }}
+            trackUserLocation={true}
+          />
+          
+        )}
       </MapGL>
       {!isEditable && (
         <div className="mapbox sidebar-ovelay">
