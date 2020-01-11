@@ -6,8 +6,7 @@
   .mapbox.sidebar-ovelay {
     display: inline-block;
     position: absolute;
-    top: 75vh;
-    left: 29vw;
+    top: 85%;
     background-color: #404040;
     color: #ffffff;
     z-index: 1 !important;
