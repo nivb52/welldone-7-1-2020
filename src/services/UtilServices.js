@@ -27,22 +27,21 @@ export function compareString(a, b, key) {
   }
   
 
-// // FROM UNDERSCORE
-// export function debounce (func, wait = 2000, immediate = null) {
-// // If `immediate` is passed, trigger the function on the
-// // leading edge, instead of the waiting.
+export function localStor(key,data=null){
+	if (!key || typeof key !== 'string'  ) throw Error ('local storage key must be string')
+	// In case there is no data: GetItem =>		
+	if (!data) {
+		const loadedDB = JSON.parse(localStorage.getItem(key)) || null;
+		return loadedDB
+	// In case there is data: SetItem =>		
+	} else {
+		localStorage.setItem(key, JSON.stringify(data));
+		return
+	}
+}
 
-// 	let timeout;
-// 	return function() {
-// 		const context = this, args = arguments;
-// 		const later = function() {
-// 			timeout = null;
-// 			if (!immediate) func.apply(context, args);
-// 		};
-// 		const callNow = immediate && !timeout;
-// 		clearTimeout(timeout);
-// 		timeout = setTimeout(later, wait);
-// 		if (callNow) func.apply(context, args);
-// 	};
-// };
-
+export const isExitsAsType = (check,type) => {
+	if (!check || !type) throw Error ('Please provide 2 Arguments, type for check, and type wanted ' )
+	if (typeof type !== 'string' ) throw Error ('type should be a string' )
+	return check && typeof check === type
+}
