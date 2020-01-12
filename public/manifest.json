@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "React Locations App",
+  "name": "Demo Categories and Locations App with Mapbox",
   "icons": [
     {
       "src": "favicon.ico",
