@@ -12,10 +12,7 @@ li {
 body {
   margin: 0 auto;
   text-align: center;
-  font-family: "Roboto", sans-serif;
-  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif; */
+  font-family: "Roboto", "Segoe UI", "Oxygen","Ubuntu", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -64,45 +61,4 @@ footer .toggle-bar {
 /* ================== */
 /* BUTTONS  */
 /* ================== */
-.btn {
-  display: inline-block;
-  border: 0.1em solid #000;
-  background-color: #ffffff;
-  padding: 0.35em 1.2em;
-  margin: 0 0.3em 0.3em 0;
-  border-radius: 0.12em;
-  text-align: center;
-  transition: all 0.2s;
-}
-
-.btn:hover {
-  background-color: #000000;
-  color: #ffffff;
-}
-
-.btn.btn-success,
-.btn.btn-info,
-.btn.btn-danger {
-  color: #ffffff;
-}
-.btn.btn-success:hover,
-.btn.btn-info:hover,
-.btn.btn-danger:hover {
-  filter: hue-rotate(180deg);
-}
-
-.btn.btn-success {
-  background-color: #4caf50;
-}
-.btn.btn-info {
-  background-color: #504cff;
-}
-.btn.btn-danger {
-  background-color: #ff0000;
-}
-
-.btn.btn-save {
-  margin-top: 1rem;
-  display: block;
-  margin: 2rem auto;
-}
+@import './buttons.css'

@@ -1,0 +1,42 @@
+.btn {
+    display: inline-block;
+    border: 0.1em solid #000;
+    background-color: #ffffff;
+    padding: 0.35em 1.2em;
+    margin: 0 0.3em 0.3em 0;
+    border-radius: 0.12em;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  
+  .btn:hover {
+    background-color: #000000;
+    color: #ffffff;
+  }
+  
+  .btn.btn-success,
+  .btn.btn-info,
+  .btn.btn-danger {
+    color: #ffffff;
+  }
+  .btn.btn-success:hover,
+  .btn.btn-info:hover,
+  .btn.btn-danger:hover {
+    filter: hue-rotate(180deg);
+  }
+  
+  .btn.btn-success {
+    background-color: #4caf50;
+  }
+  .btn.btn-info {
+    background-color: #504cff;
+  }
+  .btn.btn-danger {
+    background-color: #ff0000;
+  }
+  
+  .btn.btn-save {
+    margin-top: 1rem;
+    display: block;
+    margin: 2rem auto;
+  }
