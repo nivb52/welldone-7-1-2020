@@ -45,13 +45,13 @@ export default function Locations({ isCategorryChanged }) {
     setCategories(cats);
   };
 
-  // service
+  // service + ::TO CRUD Component::
   const deleteLocation = async id => {
     await locService.delLoc(id);
     getLocations();
   };
 
-  // service
+  // service  + ::TO CRUD Component:: 
   const editOrAddLocation = async editedLoc => {
     const coords = currentCoords ? currentCoords : editedLoc.coords;
     const address = currentAddress ? currentAddress : editedLoc.address;
@@ -91,6 +91,7 @@ export default function Locations({ isCategorryChanged }) {
     getLocations();
   };
 
+  // ::TO CRUD Component::
   const doOnSelect = choosenLoc => {
     // toogle sidebar
     const onEditing = choosenLoc && choosenLoc._id ? true : false;
@@ -104,12 +105,13 @@ export default function Locations({ isCategorryChanged }) {
     if (choosenLoc.coords) editCoords(choosenLoc.coords);
   };
 
-
+  // :::::::::::::::::::::
+  // ::Local funcs ::
   const editCoords = ({ latitude, longitude }) => {
     // const coords = { longitude, latitude };
     setCurrentCoords([longitude, latitude]);
   };
-
+  
   const editAddress = ({ text , place_name}) => {
     const  address  = text || place_name;
     setCurrentAddress(address);
@@ -120,6 +122,7 @@ export default function Locations({ isCategorryChanged }) {
     // set the select
     setSelectCategoryOption(value);
   };
+  // :::::::::::::::::::::
 
   return (
     <div className="locations-page">
